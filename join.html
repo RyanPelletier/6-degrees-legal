@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join My Six Degrees</title>
+    <meta name="description" content="You've been invited to join My Six Degrees — the app that maps how everyone in the world is connected.">
+    <meta property="og:title" content="Join My Six Degrees">
+    <meta property="og:description" content="You've been invited to map your place in the world.">
+    <meta property="og:image" content="https://ryanpelletier.github.io/6-degrees-legal/preview.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .globe { font-size: 64px; margin-bottom: 24px; }
+        .invited-by {
+            font-size: 15px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+        .subtitle {
+            font-size: 17px;
+            color: rgba(255,255,255,0.6);
+            line-height: 1.6;
+            max-width: 340px;
+            margin: 0 auto 40px;
+        }
+        .map-preview {
+            width: 100%;
+            max-width: 320px;
+            height: 200px;
+            background: linear-gradient(135deg, #0d1b2a, #1a2f47);
+            border-radius: 20px;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .map-dots {
+            position: absolute;
+            inset: 0;
+        }
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(0.8); }
+        }
+        .map-label {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            z-index: 1;
+        }
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: #ffffff;
+            color: #000000;
+            text-decoration: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            transition: transform 0.15s, opacity 0.15s;
+        }
+        .download-btn:hover { transform: scale(1.02); opacity: 0.95; }
+        .download-btn svg { width: 22px; height: 22px; }
+        .invite-code-box {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin: 24px auto 0;
+            max-width: 320px;
+        }
+        .invite-code-label {
+            font-size: 11px;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+        }
+        .invite-code-value {
+            font-size: 15px;
+            font-family: 'SF Mono', 'Courier New', monospace;
+            color: rgba(255,255,255,0.85);
+            word-break: break-all;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #4da6ff;
+            font-size: 13px;
+            cursor: pointer;
+            margin-top: 8px;
+            padding: 4px 0;
+        }
+        .footer {
+            margin-top: 48px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.25);
+            line-height: 1.8;
+        }
+        .footer a { color: rgba(255,255,255,0.35); text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="globe">🌍</div>
+
+    <p class="invited-by" id="invited-label">You've been invited</p>
+    <h1 id="headline">Join My Six Degrees</h1>
+    <p class="subtitle">The app that maps how everyone in the world is connected through 6 degrees of separation.</p>
+
+    <div class="map-preview">
+        <div class="map-dots" id="mapDots"></div>
+    </div>
+
+    <a class="download-btn" href="https://apps.apple.com/app/my-six-degrees/id6746534949" id="downloadBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+        </svg>
+        Download on the App Store
+    </a>
+
+    <div class="invite-code-box" id="codeBox" style="display:none;">
+        <div class="invite-code-label">Your invite code</div>
+        <div class="invite-code-value" id="codeValue"></div>
+        <button class="copy-btn" onclick="copyCode()">Copy code</button>
+    </div>
+
+    <div class="footer">
+        Enter your invite code during registration to connect automatically.<br><br>
+        <a href="https://ryanpelletier.github.io/6-degrees-legal/privacy_policy.html">Privacy Policy</a>
+        &nbsp;·&nbsp;
+        <a href="https://ryanpelletier.github.io/6-degrees-legal/terms_of_service.html">Terms of Service</a>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const ref = params.get('ref');
+
+        if (ref) {
+            document.getElementById('codeBox').style.display = 'block';
+            document.getElementById('codeValue').textContent = ref;
+
+            // Try to deep link into the app if installed
+            const appUrl = 'my6degrees://join?ref=' + encodeURIComponent(ref);
+            setTimeout(() => { window.location = appUrl; }, 300);
+        }
+
+        function copyCode() {
+            const code = document.getElementById('codeValue').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                document.querySelector('.copy-btn').textContent = 'Copied!';
+                setTimeout(() => {
+                    document.querySelector('.copy-btn').textContent = 'Copy code';
+                }, 2000);
+            });
+        }
+
+        // Animated map dots
+        const colors = ['#3b82f6','#22c55e','#eab308','#f97316','#ef4444','#a855f7'];
+        const container = document.getElementById('mapDots');
+        for (let i = 0; i < 18; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            const size = Math.random() * 6 + 4;
+            dot.style.cssText = `
+                width: ${size}px; height: ${size}px;
+                left: ${Math.random() * 90 + 5}%;
+                top: ${Math.random() * 80 + 10}%;
+                background: ${colors[Math.floor(Math.random() * colors.length)]};
+                animation-delay: ${Math.random() * 2}s;
+                animation-duration: ${1.5 + Math.random()}s;
+            `;
+            container.appendChild(dot);
+        }
+    </script>
+</body>
+</html>
