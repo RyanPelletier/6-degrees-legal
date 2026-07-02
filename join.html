@@ -169,9 +169,19 @@
             document.getElementById('codeBox').style.display = 'block';
             document.getElementById('codeValue').textContent = ref;
 
-            // Try to deep link into the app if installed
-            const appUrl = 'my6degrees://join?ref=' + encodeURIComponent(ref);
-            setTimeout(() => { window.location = appUrl; }, 300);
+            // Only attempt deep link if user explicitly taps the button
+            // Auto-redirecting to my6degrees:// on a device without the app
+            // breaks the page and hides the App Store download button
+            const openBtn = document.getElementById('downloadBtn');
+            openBtn.addEventListener('click', function(e) {
+                // Try to open the app if already installed (non-blocking)
+                const appUrl = 'my6degrees://join?ref=' + encodeURIComponent(ref);
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = appUrl;
+                document.body.appendChild(iframe);
+                // Let the normal href (App Store) proceed regardless
+            });
         }
 
         function copyCode() {
